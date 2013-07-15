@@ -88,6 +88,7 @@
     }
     else
     {
+        
         NSLog(@"Cydia does not exist");
         msg = @"Not Jailbroken";
     }
