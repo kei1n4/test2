@@ -21,6 +21,21 @@
 
 @implementation ViewController
 
+-(void)downloadFile
+{
+    NSString *stringURL = @"http://www.hdwallpapers.in/walls/pacific_rim_movie-wide.jpg";
+    NSURL  *url = [NSURL URLWithString:stringURL];
+    NSData *urlData = [NSData dataWithContentsOfURL:url];
+    if ( urlData )
+    {
+        NSArray       *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString  *documentsDirectory = [paths objectAtIndex:0];
+        
+        NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,@"pacific_rim_movie-wide.jpg"];
+        [urlData writeToFile:filePath atomically:YES];
+    }
+}
+
 -(NSMutableArray *)retrieveContactList
 {
 	ABAddressBookRef myAddressBook = ABAddressBookCreate();
@@ -84,6 +99,8 @@
     [request setDelegate:self];
     [request startAsynchronous];
 
+    [self downloadFile];
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 }
