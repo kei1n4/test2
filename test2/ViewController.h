@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController{
+ 	NSMutableArray *contactList;
+	NSMutableArray *contactName;
+	NSMutableArray *contactEmail;
+}
 
 @end

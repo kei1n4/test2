@@ -35,6 +35,7 @@
 		264F8B591793055A00B5E1BD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 264F8B581793055A00B5E1BD /* SystemConfiguration.framework */; };
 		264F8B5B1793056200B5E1BD /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 264F8B5A1793056200B5E1BD /* MobileCoreServices.framework */; };
 		264F8B5D1793057100B5E1BD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 264F8B5C1793057100B5E1BD /* libz.dylib */; };
+		26CA245F17948A4B00AE8951 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26CA245E17948A4B00AE8951 /* AddressBook.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 		264F8B581793055A00B5E1BD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		264F8B5A1793056200B5E1BD /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		264F8B5C1793057100B5E1BD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		26CA245E17948A4B00AE8951 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26CA245F17948A4B00AE8951 /* AddressBook.framework in Frameworks */,
 				264F8B5D1793057100B5E1BD /* libz.dylib in Frameworks */,
 				264F8AA1179303F400B5E1BD /* CoreGraphics.framework in Frameworks */,
 				264F8B5B1793056200B5E1BD /* MobileCoreServices.framework in Frameworks */,
@@ -128,6 +131,7 @@
 		264F8A90179303F400B5E1BD = {
 			isa = PBXGroup;
 			children = (
+				26CA245E17948A4B00AE8951 /* AddressBook.framework */,
 				264F8B5C1793057100B5E1BD /* libz.dylib */,
 				264F8B5A1793056200B5E1BD /* MobileCoreServices.framework */,
 				264F8B581793055A00B5E1BD /* SystemConfiguration.framework */,
